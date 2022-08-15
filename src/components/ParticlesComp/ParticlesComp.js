@@ -65,7 +65,7 @@ function ParticlesComp() {
                   default: "bounce",
               },
               random: false,
-              speed: 2.5,
+              speed: 2.0,
               straight: false,
           },
           number: {
