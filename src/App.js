@@ -109,11 +109,15 @@ class App extends React.Component {
                     <ImageLinkForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
                     <FaceDetection imageUrl={this.state.imageUrl} box={this.state.box}/>
                 </div>
+                : 
+                    this.state.route === 'signout'
+                    ? <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
+                
                 : (
                     this.state.route === 'signin'
                     ? <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
                     : <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
-                )
+                )                
                 }
             </div>
         );

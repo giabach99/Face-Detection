@@ -71,7 +71,7 @@ function ParticlesComp() {
           number: {
               density: {
                   enable: true,
-                  area: 800,
+                  area: 950,
               },
               value: 80,
           },
