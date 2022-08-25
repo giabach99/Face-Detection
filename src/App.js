@@ -8,29 +8,27 @@ import FaceDetection from './components/FaceDetection/FaceDetection';
 import ParticlesComp from './components/ParticlesComp/ParticlesComp';
 import Signin from './components/Signin/Signin';
 import Register from './components/Register/Register';
-import Clarifai, { FACE_DETECT_MODEL } from 'clarifai';
 
-const app = new Clarifai.App({
-    apiKey: '4373bc2f4120435ea075b849b8490186'
-});
+
+const initialState = {
+    input: '',
+    imageUrl: '',
+    box: {},
+    route: 'signin',
+    isSignedin: false,
+    user: {
+        id: '',
+        name: '',
+        email: '',                
+        entries: 0,
+        joined: ''
+    }
+} 
 
 class App extends React.Component { 
     constructor() {
         super();
-        this.state = {
-            input: '',
-            imageUrl: '',
-            box: {},
-            route: 'signin',
-            isSignedin: false,
-            user: {
-                id: '',
-                name: '',
-                email: '',                
-                entries: 0,
-                joined: ''
-            }
-        }
+        this.state = initialState;
     }
 
     loadUser = (data) => {
@@ -66,11 +64,17 @@ class App extends React.Component {
 
     onButtonSubmit = () => {               
         this.setState({imageUrl: this.state.input})
-        app.models
-        .predict(FACE_DETECT_MODEL, this.state.input)
+        fetch('https://fierce-sands-33665.herokuapp.com/imageUrl', {
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                input: this.state.input
+            })
+        })
+        .then(response => response.json())
         .then(response => {
             if (response) {
-                fetch('http://localhost:3000/image', {
+                fetch('https://fierce-sands-33665.herokuapp.com/image', {
                     method: 'put',
                     headers: {
                         'Content-Type': 'application/json'
@@ -83,6 +87,7 @@ class App extends React.Component {
                 .then(count => {
                      this.setState(Object.assign(this.state.user, {entries: count}));                    
                 })
+                .catch(console.log)
             }
             this.setFaceBox(this.findFaceLocation(response))
         })
@@ -91,7 +96,7 @@ class App extends React.Component {
 
     onRouteChange = (route) => {
         if (route === 'signout')
-            this.setState({isSignedin: false});
+            this.setState(initialState);
         else if (route === 'home')
             this.setState({isSignedin: true}); 
         this.setState({route: route});
