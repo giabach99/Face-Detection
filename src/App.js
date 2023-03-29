@@ -5,7 +5,7 @@ import Logo from './components/Logo/Logo';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
 import FaceDetection from './components/FaceDetection/FaceDetection';
-import ParticlesComp from './components/ParticlesComp/ParticlesComp';
+import ParticlesBg from 'particles-bg'
 import Signin from './components/Signin/Signin';
 import Register from './components/Register/Register';
 
@@ -102,10 +102,10 @@ class App extends React.Component {
         this.setState({route: route});
     }
 
-    render(){
+    render(){        
         return (
             <div className="App">
-                <ParticlesComp/>
+                <ParticlesBg type="circle" bg={true} />
                 <Navigation isSignedin={this.state.isSignedin} onRouteChange={this.onRouteChange} />
                 { this.state.route === 'home' 
                 ? <div>
